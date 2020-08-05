@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <style type='text/css'>
+        .CustomButton {
+            background: #6cb200;
+            color: #fff;
+            border: 0;
+            padding: 10px 15px;
+            font-size: 14px;
+            display: inline-block;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+            .CustomButton:hover {
+                background: #89c33f;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand">954519</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="Home.aspx">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Reset.aspx">Reset</a>
+                </li>
+        </div>
+    </nav>
+
+
+    <p>
+        <br />
+    </p>
+
+
+    <main role="main" class="container">
+        <h1 class="mt-5">An in depth look - SQLi</h1>
+        <p></p>
+        <h4>How is it done</h4>
+        Injection at its core is the abuse of sending data, while you may have an input form expecting input
+        of a certain type, an attacker can do unexpected things they shouldn’t be able to do. There are
+        multiple types of injection, with SQL injection being the most common and my focus for this
+        vulnerability.
+        <p></p>
+        In SQL injection an attacker sends SQL that can read or modify a database, this can have massive effects
+        such as gaining users username and passwords, or even deleting whole tables in the database.
+        Applications are particularly vulnerable to this attack when user input is not validated correctly and
+        not sanitised.
+        <p></p>
+        <b>Insecure code example:</b>
+        <img src="/Content/Images/SQLinsecure.png" />
+        Here we just have a textbox value going straight into a statement, allowing the user to break the statement with a ' and then run their own statement. You can work around this by adding validation but tools like
+        burpsuite can bypass that by simply changing the values after intercepting the request. <b>See image below:</b>
+        <p></p>
+        <img src="/Content/Images/SQLintercept.png" />
+        <p></p>
+        <b>secure SQL code:</b>
+        <img src="/Content/Images/brutequery.png" />
+        Here we use parameterized queries, this means the SQL is already written by the developer and then you pass in
+        parameters to the SQL afterwards meaning code and data is separated. This is generally the most
+        effective method.
+        <p></p>
+        <p></p>
+        <h4>Scenarios</h4>
+        There are many scenarios where SQL injection could be used. As long as there is a database on a site with insecure code passing statements to it then its likely you can get whatever information you
+        want from the database, including user information. You could find the admins account information and have full power, you could insert new items or update existing ones, even drop or add completetly new tables to the database.
+        <p></p>
+        Imagine a school system with poorly implemented SQL, you could find the table containing your grades and update them to be a different number, or you could drop the whole table so the school loses everyones work.
+        The possibilities are endless.
+        <p></p>
+        <h4>Ethics</h4>
+        Now that you know what SQLi is, how to check if its possible on sites, and how to do it yourself, its important to talk about the implications of this knowledge.<p></p>
+        While SQLi can be fun to experiment with, its important to only do this in places like this vulnerable web app, and to never do it on a live site. In fact, if you find that a site is vulnerable to SQLi you should stay away from the
+        site and notify the admins because none of your data is safe and neither is anyone elses.
+        <p></p>
+        The results of malicious users using SQLi can be massive, as mentioned earlier you could change or drop the tables of a database, depending on the context potentially ruining thousands of peoples saved data or you could steal their data for 
+        yourself.
+        Using SQLi maliciously will get you into big legal trouble even if you dont mean any harm so be sure to keep it safe and ethical.
+        <p></p>
+
+    </main>
+
+
+
+    <form id="form1" runat="server">
+        <div>
+        </div>
+    </form>
+</body>
+</html>

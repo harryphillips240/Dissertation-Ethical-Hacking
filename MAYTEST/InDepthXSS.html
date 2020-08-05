@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <style type='text/css'>
+        .CustomButton {
+            background: #6cb200;
+            color: #fff;
+            border: 0;
+            padding: 10px 15px;
+            font-size: 14px;
+            display: inline-block;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+            .CustomButton:hover {
+                background: #89c33f;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand">954519</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="Home.aspx">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Reset.aspx">Reset</a>
+                </li>
+        </div>
+    </nav>
+
+
+    <p>
+        <br />
+    </p>
+
+
+    <main role="main" class="container">
+        <h1 class="mt-5">An in depth look - XSS</h1>
+        <p></p>
+        <h4>How is it done</h4>
+        Cross-site Scripting is when an attacker finds a way to run malicious scripts on a webpage that a user
+        goes onto, this code can perform a range of malicious tasks such as bypassing access controls or
+        stealing cookies. There are 3 main types of this attack; Persistent
+        (Stored), Non-persistent (reflected), and DOM (Document Object Model).
+        <p></p>
+        <b>Stored XSS </b> is extremely dangerous, changes can be saved to the server and then served to other users, this takes out the need to
+        get users to click on a malicious link because they are being sent the script straight from the web
+        application server. In my application its a forum, and the user can put scripts in the comments. This code
+        would then run on anyone viewing this comment page and could do any number of things just like in reflected,
+        however its more effective because you do not need to target individual users.
+        <p></p>
+        <b>Reflected is non persistent </b> meaning it only affects the one user running the
+        script and is often caused by unprotected input fields. By attaching the script to the end of a URL and
+        then using a link shortening service it becomes an effective attack, the script could do any number of
+        things like redirecting the user to a phishing site, steal cookies or do any action on behalf of the user
+        on the site. My application uses changing language as the example, appending the value to the URL:
+        <p></p>
+        <img src="/Content/Images/XSSreflect2.png" class="center" />
+        <p></p>
+        If someone sent you a shortened link with a script instead of the language param, you could click and run it without even knowing.
+        <p></p>
+        Finally, <b>DOM or document object model scripting </b> works by not sending the script to the server at all,
+        it always stays in the browser. The page itself does not change, the client side code in the page runs differently because of malicious changes that have occurred in the DOM environment.
+        <p></p>
+        <b>Below is my example of the client side code:</b>
+        <p></p>
+        <img src="/Content/Images/XSSDOM2.png" class="center" />
+        <p></p>
+        On this page nothing is done server side.
+        <p></p>
+        In terms of defences there are automated tools that can detect and exploit these variations of XSS
+        thus telling you that you are in need of a fix, the defences include using frameworks that escape XSS
+        automatically, escaping untrusted HTTP request data based on HMTL output, and taking extra care
+        handling cookies.
+        <p></p>
+        <b>Heres an example of some bad validation:</b>
+        <p></p>
+        <img src="/Content/Images/XXSvalid.png" />
+        <p></p>
+        This is poor because its only checking for script or SCRIPT, what about ScRiPt? Its the little things like this that lead to vulnerabilities and they are something to keep an eye out for when coding yourself. In my hard mode
+        I simply use .ToUpper() to make it upper case before checking it so it doesnt matter what case they write it in.
+        <p></p>
+        <h4>Scenarios</h4>
+        These 3 methods could be used in many ways, Stored for example could be used on a social media site where you can post publicly, if you get a script into your post it would run for everyone who saw it
+        which is extremely dangerous, In this application the scenario is a forum. Reflected could be used by adding the script to the URL and then shortening it, then you send this URL to someone and it runs your code, in this case
+        changing language adds a param to the URL, allowing for this to happen. The same applies to DOM.
+        <p></p>
+        In terms of what it could do, it varies. It could steal a cookie and use that information to impersonate that user, it could redirect someone to a copy of the site but when they type their details in it steals them. It could create
+        backdoors on a system or capture keystrokes, essentially becoming a keylogger sitting and waiting for you to give it your information, overall its an extremely versatile exploit.
+        <p></p>
+        <h4>Ethics</h4>
+        Now that you know what XSS is, how to check if its possible on sites, and how to do it yourself, its important to talk about the implications of this knowledge.<p></p>
+        On a real site, XSS is not something to experiment with, causing someone to run your script maliciously would get you in trouble legally. On this application its fine to experiement as theres nothing at risk and
+        its all for practice and learning what not to do. Its important to report any vulnerabilities you happen to find to the people running the site, some companies even offer prize rewards for vulnerabilities like this being found!
+        <p></p>
+    </main>
+
+
+
+    <form id="form1" runat="server">
+        <div>
+        </div>
+    </form>
+</body>
+</html>

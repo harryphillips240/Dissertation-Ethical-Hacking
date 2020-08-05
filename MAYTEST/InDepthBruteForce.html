@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <style type='text/css'>
+        .CustomButton {
+            background: #6cb200;
+            color: #fff;
+            border: 0;
+            padding: 10px 15px;
+            font-size: 14px;
+            display: inline-block;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+            .CustomButton:hover {
+                background: #89c33f;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand">954519</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="Home.aspx">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Reset.aspx">Reset</a>
+                </li>
+        </div>
+    </nav>
+
+
+    <p>
+        <br />
+    </p>
+
+
+    <main role="main" class="container">
+        <h1 class="mt-5">An in depth look - Brute force</h1>
+        <p></p>
+        <h4>How is it done</h4>
+        Brute force attack is one of the simpler vulnerabilities, it involves an attacker trying many
+        combinations of user names and passwords in an attempt to guess the correct one and gain access
+        to a user’s account, essentially it is trial and error. There are different variations of the brute force
+        attack such as the Dictionary attack; in which an attacker has a list of possible passwords to try, this
+        means the attack will be faster. There is a lot of software to perform brute force attacks on such as Burp Suite,
+        Medusa, THC Hyrda, John the ripper, and many more. 
+        <p></p>
+        <b>The brute force sections have been implemented with simple parameterized SQL queries:</b>
+        <img src="/Content/Images/brutequery.png" />
+        There are a number of ways of protecting against brute force attacks ranging from stopping all login attempts, to making each user complete a captcha before login. My hard example is what a newer programmer
+        might think is a good idea - disabling textboxes after incorrect logins for a time
+        period. It makes sense to think that this would prevent any further attempts therefore halting the attack, however its only implemented client side, meaning you can easily bypass the timeout by simply
+        using a tool to forward requests.
+        <p></p>
+        <b>Burp suite is the tool i am using, intercepting a request and forwarding it to the intruder section leads to some interesting possibilities:</b>
+        <img src="/Content/Images/brutepayload.png" style="width:1200px;height:600px" />
+        Here you can see that we can select the payload positions - the values that we will be brute forcing, so in this case username and password. We also see the attack type, Sniper and Battering ram
+        use single payloads so we need to use Pitchfork or Cluster bomb. Clusterbomb picks an item from payload 1, and then tries every value from payload 2, this means that the total number of attemps is
+        equal to the product of the number of payloads in each set so it can get huge.
+        <p></p>
+        <b>Below is an image of the Payload and Grep options:</b>
+        <p></p>
+        <img src="/Content/Images/brutepayloadoptions.png" /> <img src="/Content/Images/brutegrep.png" />
+        <p></p>
+        This is where you set your payload of items to put into username and password, you could try a file containing common passwords or put in custom values. The Grep match is where you add items you want to
+        be flagged up when it tries a payload combination, for example my login page has "Welcome" on it, so if you add "Welcome" as an option it will flag up all successful combinations.
+        <p></p>
+        <b>Below is that attack in progress:</b>
+        <p></p>
+        <img src="/Content/Images/bruterun.png" />
+        <p></p>
+        You can see all the attempts and after sorting by login we can see the working attempts and the status code 302 showing a redirect happened.
+        <p></p>
+        <p></p>
+        <h4>Scenarios</h4>
+        The scenarios where brute force attack could be used are quite linear, essentially if you have an input you dont know the answer to, you can play a guessing game, and can increase your odds by being smart and using
+        common words you think are more likely to be correct. The most common scenario is on a log in page where you have a username and password input, perhaps you already have a list of leaked emails from a file and now
+        you can try out a variety of words for the password. Another example would be using brute force for cracking hashed passwords using rainbow tables.
+        <p></p>
+        <h4>Ethics</h4>
+        Now that you know what Brute force is, how to check if its possible on sites, and how to do it yourself, its important to talk about the implications of this knowledge.
+        <p></p>
+        If the wrong person is on an insecure site, they could do anything from causing many users to be unable to login (due to measures like delaying user logins to slow an attack) all the way up to accessing details 
+        of users on the site. Brute forcing a system you do not own is illegal and
+        can get you into massive legal problems. The reason this application exists is to raise awareness of these issues, and show how to stay away from vulnerable sites while also teaching you to not make these mistakes
+        in your own work in the future.
+        <p></p>
+        Brute force is a tricky one since there isn't really one secure way to stop it from happening, lots of sites will use different methods so if you do find a vulnerability on a site you must let the people running it know
+        so they can make the crucial changes to ensure the safety of their users data.
+        <p></p>
+
+    </main>
+
+
+
+    <form id="form1" runat="server">
+        <div>
+        </div>
+    </form>
+</body>
+</html>
